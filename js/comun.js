@@ -177,7 +177,7 @@ function pantalla(ax, ay, lineas, o = {}) {
   const col = o.color || TI;
   p.esPantalla = true;
   p.hud = (c, H) => {
-    const s = H.s;
+    const s = cabe(Math.max(...L.map(l => medirTexto(l.t)), o.titulo ? medirTexto(o.titulo) : 0) + 10, H.s, H.W);
     const w = (Math.max(...L.map(l => medirTexto(l.t)), o.titulo ? medirTexto(o.titulo) : 0) + 10) * s;
     const h = (L.length * 9 + 5 + (o.titulo ? 11 : 0)) * s;
     const [ax, ay] = H.aP(p.x, p.y);

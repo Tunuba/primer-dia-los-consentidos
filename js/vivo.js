@@ -279,7 +279,7 @@ function rotulo(k, txt, color, dur = 3.5, siempre = false) {
   const previo = ROTULOS.get(k);
   if (previo) quitar(previo);
   // el letrero va a tamano de pantalla; su alto y su ancho en el mundo dependen del zoom
-  const s = escalaLetra(alto), z = cam.z;
+  const s = escalaLetra(alto, ancho), z = cam.z;
   const w = (medirTexto(txt) + 10) * s / z, paso = (13 * s + 4) / z;
   let y = a.y - 44;
   for (let vuelta = 0; vuelta < 6; vuelta++) {

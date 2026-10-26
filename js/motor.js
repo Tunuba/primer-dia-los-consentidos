@@ -346,7 +346,10 @@ function dentro(x0, y0, w, h, m = 4) {
 }
 // Lo que se lee (etiquetas, pantallas, el texto de los paquetes) va a tamano fijo de pantalla, con pixeles enteros,
 // asi se ve igual de nitido y del mismo tamano en todas las escenas, se acerque o no la camara.
-function escalaLetra(H) { return Math.max(2, Math.round(H / 240)); }
+// El tamano de la letra sale del lado corto de la pantalla, asi en un telefono de pie no crece con lo alto.
+// Y si una caja no cabe en el ancho, se achica sola hasta caber.
+function escalaLetra(H, W = H * 16 / 9) { return clamp(Math.round(Math.min(W / 450, H / 240)), 2, 6); }
+function cabe(anchoLetras, s, W) { while (s > 1 && anchoLetras * s > W * 0.92) s--; return s; }
 // las cajas en pantalla que ya estan ocupadas este cuadro (globos, etiquetas, pantallas)
 function solape(r, lista) {
   let a = 0;
@@ -359,7 +362,7 @@ function solape(r, lista) {
 function etiqueta(txt, x, y, color = '#1fa59c', o = {}) {
   const e = cosa(Object.assign({ x, y, txt, color, esc: 0, capa: 9, flota: true }, o));
   e.hud = (c, H) => {
-    const s = H.s;
+    const s = cabe(medirTexto(e.txt) + 8, H.s, H.W);
     const w = (medirTexto(e.txt) + 8) * s, h = 13 * s;
     const fy = e.flota ? Math.round(Math.sin((T - e.nace) * 2.2) * 1.5) * s : 0;
     const [sx, sy] = H.aP(e.x, e.y);
@@ -619,7 +622,10 @@ const cam = { x: 640, y: 420, z: 1, sacudida: 0, golpe: 0 };
 let camSigue = null;
 function zoomPara(r) {
   if (r.z) return r.z;
-  const z = Math.min(ancho / r.w, alto / (r.h || r.w * 9 / 16));
+  let z = Math.min(ancho / r.w, alto / (r.h || r.w * 9 / 16));
+  // de pie (un telefono), mostrar todo el ancho deja la escena en una franja chiquita; se acerca hasta que
+  // lo importante ocupe el ancho, recortando un poco los lados, sin pasar de lo que cabe de alto
+  if (alto > ancho * 1.15) z = Math.max(z, Math.min(alto / ((r.h || r.w * 9 / 16) * 1.4), ancho / (r.w * 0.85)));
   // pixeles enteros siempre que se pueda; si no cabe ni a 1, se encoge
   return z < 1 ? z : Math.max(1, Math.round(z));
 }
@@ -888,7 +894,7 @@ function dibujarMundo(c, W, H) {
   dibujarCapaCosas(c, 10);
   c.restore();
   const Hd = {
-    s: escalaLetra(H), W, H, z, abajo: Math.round(H * 0.11),
+    s: escalaLetra(H, W), W, H, z, abajo: Math.round(Math.min(H * 0.11, 30 * escalaLetra(H, W))),
     aP: (x, y) => [x * z + tx, y * z + ty],
     ocupado: [],
   };
@@ -940,7 +946,7 @@ function cuadro() {
 let HUD = { titulo: '', num: 0, total: 1, alfa: 0, x: -400, visible: true, paso: 0, pasos: 0 };
 function dibujarHUD() {
   if (!HUD.visible || HUD.alfa <= 0) return;
-  const e = Math.max(2, Math.round(Math.min(cv.width / 480, cv.height / 270)));
+  const e = Math.max(2, Math.round(Math.min(cv.width / 330, cv.height / 270)));
   const c = ctx;
   c.save();
   c.globalAlpha = HUD.alfa;
@@ -993,7 +999,7 @@ function bucle(ahora) {
   if (camVuelo) camVuelo();
   else if (camSigue) {
     const o = camSigue.o;
-    const zt = Math.max(1, Math.round(ancho / camSigue.w));
+    const zt = zoomPara({ w: camSigue.w });
     const k = 1 - Math.exp(-camSigue.suave * dt);
     cam.x = lerp(cam.x, o.x, k); cam.y = lerp(cam.y, o.y - 10, k); cam.z = lerp(cam.z, zt, k);
     if (Math.abs(cam.z - zt) < 0.03) cam.z = zt;
