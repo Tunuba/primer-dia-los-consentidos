@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oficina en vivo</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #14101e; overflow: hidden; }
+  canvas { display: block; image-rendering: pixelated; }
+  #chip { position: fixed; left: 50%; top: 10px; transform: translateX(-50%) translateY(-8px); opacity: 0;
+    transition: opacity .3s, transform .3s; pointer-events: none; font: 700 14px "Segoe UI", sans-serif; color: #fff;
+    background: #1fa59c; padding: 6px 14px; border-radius: 8px; box-shadow: 0 2px 0 #0004; white-space: nowrap;
+    letter-spacing: .5px; text-align: center; }
+  #chip.ver { opacity: 1; transform: translateX(-50%); }
+  #chip small { display: block; font: 600 11px "Segoe UI", sans-serif; opacity: .85; letter-spacing: 0; }
+</style>
+</head>
+<body>
+<canvas id="lienzo"></canvas>
+<div id="chip"></div>
+<script src="datos.js"></script>
+<script src="js/motor.js"></script>
+<script src="js/comun.js"></script>
+<script src="js/ambiente.js"></script>
+<script src="demo/corrida.js"></script>
+<script src="js/vivo.js"></script>
+</body>
+</html>
