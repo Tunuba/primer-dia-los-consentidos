@@ -472,10 +472,10 @@ def detalles(l, fr, az):
     caja(l, 1052, 404, 1060, 422, '#8a8e9a')
     caja(l, 1050, 401, 1062, 404, '#5a5e6a')
     amb['humos'] = [[391, TECHO - 24], [707, TECHO - 24], [1056, 399]]
-    # relojes, el grande de la torre del elevador, la bodega y las sucursales
-    relojes = [[(POZO[0] + POZO[1]) // 2, TECHO - 40, 8], [1018, 468, 6], [SUC1[0] + 66, CALLE - 58, 5], [SUC2[0] + 74, CALLE - 58, 5],
+    # relojes, la bodega y las sucursales
+    relojes = [[1018, 468, 6], [SUC1[0] + 66, CALLE - 58, 5], [SUC2[0] + 74, CALLE - 58, 5],
                [PUNTOS['reloj'][0], PUNTOS['reloj'][1], 7]]
-    for cx, cy, r in relojes[:4]:
+    for cx, cy, r in relojes[:3]:
         reloj_cara(l, cx, cy, r)
     amb['relojes'] = relojes
     # el horario de cada servicio, el de su calendario en GLPI
