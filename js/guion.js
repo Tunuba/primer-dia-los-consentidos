@@ -1139,7 +1139,7 @@ const ESCENAS = [
         const [ex0, ey0, ex1] = D.rects.estantes;
         const cont = etiqueta('ARTÍCULOS 0', 690, 462, '#3aa060');
         const n = { v: 0 };
-        tween(n, { v: 95 }, 2.6, E.lineal);
+        tween(n, { v: 100 }, 2.6, E.lineal);
         cont.mueve = () => { cont.txt = 'ARTÍCULOS ' + Math.round(n.v); };
         const tipos = ['a', 'b', 'c', 'd', 'e'];
         for (let k = 0; k < 40; k++) {
@@ -1150,7 +1150,7 @@ const ESCENAS = [
           await espera(0.06);
         }
         await espera(1);
-        cont.mueve = null; cont.txt = 'ARTÍCULOS 95';
+        cont.mueve = null; cont.txt = 'ARTÍCULOS 100';
         etiqueta('UNA SECCIÓN POR CADA UNA DE LAS 42 HOJAS', 728, 448, '#f08a30');
         await di(B, 1);
       },

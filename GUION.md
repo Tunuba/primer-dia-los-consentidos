@@ -124,7 +124,7 @@ su horario con una luz verde si a esa hora está abierto.
 | Clic | Pasa | Habla | Idea |
 |---|---|---|---|
 | 1 | | A | Todo se escribe |
-| 2 | Vuelan los libros hasta 95 artículos, una sección por cada una de las 42 hojas | B | |
+| 2 | Vuelan los libros hasta 100 artículos, una sección por cada una de las 42 hojas | B | |
 | 3 | El bot sugiere artículo en 95 % de los incidentes y calla si no hay uno que sirva | B | Aprendí algo |
 
 ## 18. Problemas y errores conocidos
