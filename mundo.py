@@ -448,8 +448,8 @@ def detalles(l, fr, az):
     for k in range(3):
         caja(l, 1080, CALLE - 4 - k * 4, 1104, CALLE - 1 - k * 4, '#a8703a', bisel=False)
         l.hl(CALLE - 3 - k * 4, 1081, 1103, rgba('#7a4e22'))
-    l.linea(872, CALLE - 2, 866, CALLE - 32, rgba('#8a5a2e'))
-    l.rect(869, CALLE - 6, 876, CALLE - 1, rgba('#d8b060')); l.hl(CALLE - 6, 869, 876, rgba('#5a3a20'))
+    l.linea(1078, CALLE - 2, 1072, CALLE - 32, rgba('#8a5a2e'))
+    l.rect(1075, CALLE - 6, 1082, CALLE - 1, rgba('#d8b060')); l.hl(CALLE - 6, 1075, 1082, rgba('#5a3a20'))
     # tazas en los escritorios, con su vapor de vez en cuando
     tazas = []
     for x, p, c in ((336, 'p1', 'taza_blanca'), (366, 'p2', 'taza_roja'), (336, 'p3', 'taza_azul'), (650, 'p2', 'taza_blanca'),
@@ -529,10 +529,7 @@ def hornear():
     l.hl(CALLE, BOD[1] + 8, BX1 + 268, rgba('#cfcac0'))
     for x in range(BOD[1] + 10, BX1 + 268, 16):
         l.vl(x, CALLE + 1, CALLE + 37, rgba('#86827a'))
-    # cables de fibra bajo la calle hasta el sotano
-    for i, c in enumerate(('#f08a30', '#2a7ad8')):
-        y = CALLE + 50 + i * 4
-        l.hl(y, 0, BX0, rgba(c))
+    # (la fibra de cada sucursal la dibuja red(), de su pantalla al ducto del edificio)
     RUTAS['fibra'] = [(0, CALLE + 52), (BX0, CALLE + 52)]
 
     # ── el cascaron del edificio ──
@@ -578,9 +575,20 @@ def hornear():
     l.hl(440, BOD[0] - 12, BOD[1] + 12, TINTA)
     texto(l, 952, 406, 'BODEGA CENTRAL', rgba('#2c3a4a'))
 
-    # muro entre la bodega y el despacho con su puerta
-    l.rect(BX1 - 8, CALLE - 48, BX1 + 8, CALLE - 1, rgba('#cfe0c8'))
-    l.rect(BX1 - 8, CALLE - 48, BX1 + 8, CALLE - 46, rgba('#8e8a86'))
+    # el muro que comparten el despacho y la bodega: una sola pared crema del techo de la bodega al piso,
+    # con una puerta de paso de marco de madera, y el piso corrido de un lado al otro
+    x0, x1 = DER[1] + 1, BOD[0] - 1
+    caja(l, x0, 441, x1, CALLE - 1, crema, borde=False)
+    l.vl(x0, 441, CALLE - 1, rgba(oscuro(crema, 0.25)))
+    l.vl(x1, 441, CALLE - 1, rgba(oscuro(crema, 0.25)))
+    pt0, pt1, ptop = x0 + 3, x1 - 3, CALLE - 40
+    l.rect(pt0, ptop, pt1, CALLE - 1, rgba('#9a9282'))          # el hueco deja ver la lamina de la bodega
+    for x in range(pt0, pt1 + 1, 4):
+        l.vl(x, ptop + 1, CALLE - 1, rgba('#8a8272'))
+    l.rect(pt0 - 2, ptop - 2, pt1 + 2, ptop - 1, rgba('#8a5a2e'))  # dintel
+    l.vl(pt0 - 2, ptop, CALLE - 1, rgba('#8a5a2e')); l.vl(pt0 - 1, ptop, CALLE - 1, rgba('#a8703a'))
+    l.vl(pt1 + 2, ptop, CALLE - 1, rgba('#6a4020')); l.vl(pt1 + 1, ptop, CALLE - 1, rgba('#8a5a2e'))
+    losa(l, DER[1] - 4, BOD[0] + 4, CALLE)
     # portón de la bodega al anden
     l.rect(BOD[1] + 1, CALLE - 52, BOD[1] + 8, CALLE - 1, rgba('#b8b0a0'))
     l.rect(BOD[1] + 1, CALLE - 52, BOD[1] + 8, CALLE - 50, rgba('#5e5a58'))
@@ -733,8 +741,8 @@ def hornear():
         caja(l, sx, pb - 66 - 12, sx + 11, pb - 66 - 3, '#e8d8b0')
         l.rect(sx + 3, pb - 66 - 9, sx + 8, pb - 66 - 7, rgba(['#f0c040', '#d8443c', '#3aa060', '#8a5a2e', '#2a7ad8'][c % 5]))
     # contador del inventario
-    caja(l, 1034, 478, 1112, 500, '#1a1e28')
-    RECTS['contador'] = (1037, 481, 1109, 497)
+    caja(l, 1024, 478, 1116, 500, '#1a1e28')
+    RECTS['contador'] = (1027, 481, 1113, 497)
     PUNTOS['montacargas'] = (1040, pb)
     PUNTOS['bodega1'] = (1000, pb)
     PUNTOS['porton'] = (BOD[1] + 4, pb)

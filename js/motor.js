@@ -932,10 +932,7 @@ function cuadro() {
     ctx.drawImage(buf, 0, 0, bw, bh, 0, 0, W, H);
   }
   ctx.setTransform(1, 0, 0, 1, 0, 0);
-  // vineta
-  const v = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.45, W / 2, H / 2, Math.max(W, H) * 0.75);
-  v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(10,6,24,0.38)');
-  ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+  // sin vineta, la escena llega limpia hasta las esquinas (Meme no quiere orillas negras)
   if (flash > 0) { ctx.fillStyle = `rgba(${flashColor},${clamp(flash, 0, 1)})`; ctx.fillRect(0, 0, W, H); }
   dibujarHUD();
 }

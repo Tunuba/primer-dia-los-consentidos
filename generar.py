@@ -87,8 +87,9 @@ def main():
     datos = {
         'mundo': {'ancho': mundo.W, 'alto': mundo.H, 'calle': mundo.CALLE, 'pisos': mundo.PISOS,
                   'techo': mundo.TECHO, 'azotea': mundo.TECHO - 10, 'pozo': mundo.POZO,
-                  # tramos limpios de calle para repetir a los lados, de 66 para que las rayas cuadren cada 22
-                  'tramos': [[0, 66], [mundo.W - 136, 66]], 'edificio': [mundo.BX0, mundo.BX1]},
+                  # tramos limpios de calle para repetir a los lados, de 66 y de 22 para que las rayas cuadren
+                  # cada 22; el de la derecha va despues de la sucursal 2, que antes se repetia con su fibra
+                  'tramos': [[0, 66], [mundo.W - 22, 22]], 'edificio': [mundo.BX0, mundo.BX1]},
         'salas': salas,
         'puntos': mundo.PUNTOS,
         'rutas': mundo.RUTAS,

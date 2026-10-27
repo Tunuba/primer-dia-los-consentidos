@@ -200,7 +200,16 @@ function camioncito(c, x, y, dir) {
 }
 capaExtra.push({ capa: 1, fn: c => {
   const [cx0, cy0] = D.rects.contador;
-  texto(c, ST.bodegaMsg || ('SACOS ' + Math.round(ST.sacos)), cx0 + 3, cy0 + 4, ST.bodegaMsg ? '#ffd23c' : '#7aff8a');
+  // el letrero de la bodega, centrado; si un mensaje no cabe se parte en dos renglones
+  {
+    const msg = ST.bodegaMsg || ('SACOS ' + Math.round(ST.sacos));
+    const ancho = D.rects.contador[2] - cx0 - 4, col = ST.bodegaMsg ? '#ffd23c' : '#7aff8a';
+    if (medirTexto(msg) <= ancho) texto(c, msg, cx0 + Math.floor((ancho + 4 - medirTexto(msg)) / 2), cy0 + 4, col);
+    else {
+      const p = msg.split(' '), r1 = p.slice(0, Math.ceil(p.length / 2)).join(' '), r2 = p.slice(Math.ceil(p.length / 2)).join(' ');
+      for (const [r, dy] of [[r1, 0], [r2, 8]]) texto(c, r, cx0 + Math.floor((ancho + 4 - medirTexto(r)) / 2), cy0 + 1 + dy, col);
+    }
+  }
   if (ST.mapa) {
     ['mapa0', 'mapa1', 'mapa2'].forEach((r, i) => {
       const ruta = D.rutas[r];
@@ -488,18 +497,18 @@ const ESCENAS = [
       va(A, 380, 'pb', { vista: 'frente' });
       pon(PERRO, -80, ACERA, { sentado: false });
     },
-    async entrada() { await andar(B, 334); B.mira(1); },
+    async entrada() { await andar(B, 360); B.mira(1); },
     pasos: [
       async () => {
         SON.click(); luz('pb_izq', 1, 0.1); await espera(0.15);
         fx.chispas(436, 532, 10, ['#fff3a0', '#ffffff']);
-        await A.ir(372, VEL); A.mira(-1); await A.saltar(6);
+        await A.ir(398, VEL); A.mira(-1); await A.saltar(6);
         etiqueta('RESPONSABLE DE TI', A.x + 30, A.y + 14, TI);
         await di(A, 2);
       },
       async () => { await di(B, 1); },
       async () => {
-        await A.ir(360, VEL); A.mira(-1);
+        await A.ir(386, VEL); A.mira(-1);
         const g = cosa({ spr: 'gafete', x: A.x - 6, y: A.y - 16, capa: 9 });
         await volar(g, [A.x - 6, A.y - 16], [B.x + 2, B.y - 16], 0.45, -8);
         quitar(g);
@@ -510,7 +519,8 @@ const ESCENAS = [
       },
       async () => {
         PERRO.vel = 110; SON.guau();
-        await andar(PERRO, B.x - 20, 110);
+        // el perro se queda adentro de la sala, con la cola lejos de la puerta
+        await andar(PERRO, Math.max(B.x - 22, 336), 110);
         PERRO.dir = 1;
         await PERRO.saltar(7, 0.3); SON.guau(); fx.corazones(PERRO.x, PERRO.y - 18, 3);
         await PERRO.saltar(7, 0.3);
@@ -526,8 +536,8 @@ const ESCENAS = [
     id: 'areas', titulo: 'Sesenta personas y cuatro áreas', hora: 6.6,
     cam: { x: 712, y: 474, w: 880, h: 440 },
     prep() {
-      va(B, 340, 'pb', { vista: 'frente' }); va(A, 366, 'pb', { vista: 'frente' });
-      va(PERRO, 316, 'pb', { sentado: true, dir: 1 });
+      va(B, 358, 'pb', { vista: 'frente' }); va(A, 384, 'pb', { vista: 'frente' });
+      va(PERRO, 336, 'pb', { sentado: true, dir: 1 });
     },
     pasos: [
       async () => {
@@ -675,7 +685,8 @@ const ESCENAS = [
   },
   {
     id: 'pedidos', titulo: 'Servicio 3, gestión de pedidos', hora: 9,
-    cam: { x: 880, y: 560, w: 430, h: 150 },
+    // a 820 el guia con su globo y el nuevo, junto al mapa del rastreo, quedan en cuadro de 1280 a 1920 de ancho
+    cam: { x: 820, y: 560, w: 430, h: 150 },
     prep() {
       va(A, 650, 'pb', { vista: 'frente' }); va(B, 676, 'pb', { vista: 'frente' });
       va(PERRO, 700, 'pb', { sentado: true, dir: -1 });
@@ -729,7 +740,7 @@ const ESCENAS = [
         b1.ir(1104, 50).then(() => { b1.mira(-1); });
         b2.ir(905, 50).then(() => b2.frente());
         ST.bodegaMsg = 'SALIDA -4';
-        await camara({ x: 880, y: 560, w: 430, h: 150 }, 1.0);
+        await camara({ x: 820, y: 560, w: 430, h: 150 }, 1.0);
         await espera(0.6); ST.bodegaMsg = '';
         await di(B, 1);
       },
@@ -740,7 +751,7 @@ const ESCENAS = [
         seguir(CAMION, 360, 3);
         await conducir(CAMION, 1600, 3.2, E.entra);
         CAMION.visible = false;
-        await camara({ x: 880, y: 560, w: 430, h: 150 }, 1.2);
+        await camara({ x: 820, y: 560, w: 430, h: 150 }, 1.2);
         await di(A, 1);
       },
     ],
