@@ -147,7 +147,7 @@ su horario con una luz verde si a esa hora está abierto.
 |---|---|---|---|
 | 1 | Suben las barras, plugin Mejora continua, 27 indicadores medidos sobre GLPI | A | Los números salen de GLPI |
 | 2 | Gira la rueda PHVA | B | Planear, hacer, verificar, actuar |
-| 3 | Registro CSI con 7 oportunidades | A | |
+| 3 | Registro CSI con 7 oportunidades y cómo va hoy, 2 implementadas, 2 en curso y 3 propuestas, errores conocidos 9 de 9 y primer nivel 28 % contra una meta de 50 % | A | Lo que no llega a la meta es la próxima mejora |
 
 ## 21. Bienvenido al equipo
 | Clic | Pasa | Habla | Idea |

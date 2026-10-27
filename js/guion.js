@@ -1300,6 +1300,10 @@ const ESCENAS = [
       },
       async () => {
         etiqueta('REGISTRO CSI, 7 OPORTUNIDADES DE MEJORA', 742, 284, '#a070ff');
+        // lo que dice la medicion del plugin del 27-10 (kpis-glpi.json)
+        pantalla(773, 306, ['2 IMPLEMENTADAS Y MEDIDAS', '2 EN CURSO Y 3 PROPUESTAS',
+          { t: 'ERRORES CONOCIDOS 9 DE 9, CUMPLE', c: '#7aff8a' },
+          { t: 'PRIMER NIVEL 28 %, META 50 %', c: '#ffd23c' }], { titulo: 'ASÍ VA HOY', color: '#a070ff' });
         await di(A, 2);
       },
     ],
